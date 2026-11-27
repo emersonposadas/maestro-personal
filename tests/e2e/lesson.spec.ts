@@ -60,3 +60,19 @@ test('portada y calendario caben en la pantalla', async ({ page }, testInfo) => 
   await expect(page.getByText('Calendario base · minutos activos')).toBeVisible();
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
 });
+test('analiza cada área con resultados parciales sin inventar mediciones', async ({ page }) => {
+  await page.goto('/');
+  await page.getByRole('button', { name: 'Comenzar clase' }).click();
+  await page.getByLabel('Dificultad', { exact: true }).check();
+  await page.getByLabel('Observación (opcional)').fill('Me cuesta mantener la frase');
+  await page.getByRole('button', { name: 'Siguiente', exact: true }).click();
+  await page.getByRole('button', { name: 'Progreso', exact: true }).click();
+  const analysis = page.getByRole('region', { name: 'Análisis por área' });
+  await expect(analysis.getByText('Dificultad en el último intento', { exact: true })).toBeVisible();
+  await analysis.getByText('Evidencias y evolución de tus observaciones', { exact: true }).click();
+  await expect(analysis.getByText('Me cuesta mantener la frase', { exact: true })).toBeVisible();
+  await page.getByLabel('Área que quieres revisar').selectOption('Canto');
+  await expect(analysis.getByText('Todavía no hay intentos registrados en esta área.')).toBeVisible();
+  await analysis.getByText('Qué falta para evaluar el progreso técnico', { exact: true }).click();
+  await expect(analysis.getByText('Pendiente: afinación, respiración, fraseo y coordinación con el instrumento.')).toBeVisible();
+});

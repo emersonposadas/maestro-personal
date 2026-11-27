@@ -29,7 +29,7 @@ npm run build
 npm run preview
 ```
 
-`dist/` contiene el resultado de producción. No se ha configurado ningún despliegue.
+`dist/` contiene el resultado de producción. GitHub Actions compila y publica esta carpeta en GitHub Pages al subir cambios a `main`. La ruta de producción es `/maestro-personal/`; `npm run preview` permite verificar esa misma ruta localmente.
 
 ## Pruebas
 
@@ -66,3 +66,15 @@ Este incremento no completa la fase 1A. Quedan pendientes:
 Las herramientas de audio, grabaciones, afinador, currículo anual y pruebas periódicas pertenecen a incrementos posteriores. No hay análisis acústico ni integración de IA. El temporizador básico de la sesión sirve solo de orientación.
 
 Las decisiones se registran en [docs/decisiones.md](docs/decisiones.md). Las instrucciones del proyecto están en [AGENTS.md](AGENTS.md).
+
+## Análisis por áreas
+
+Progreso incluye un selector de acordeón, bajo quinto y canto. Cada área muestra las habilidades con resultados registrados, el último estado y una propuesta explicada para revisar con el tutor. Los detalles muestran las observaciones en orden cronológico, incluyendo sesiones parciales y motivos de omisión.
+
+Dos últimos intentos con dificultad en el mismo ejercicio producen una propuesta de fragmentación; las omisiones se cuentan aparte y no representan retroceso. Las versiones o contenidos distintos se separan. Las propuestas no cambian automáticamente las clases ni el nivel. Una sola sesión constituye un punto de partida, no evidencia de evolución.
+
+El análisis actual es descriptivo y utiliza autoevaluaciones de confianza no determinada. No calcula porcentajes de dominio ni infiere mejora técnica de cambios en las respuestas. El registro de tempo, errores y afinación con condiciones comparables, así como la revisión del tutor, queda pendiente. Se especifican las habilidades todavía no evaluadas por instrumento. El tiempo de sesión no se reparte artificialmente entre instrumentos.
+
+## GitHub Pages
+
+El workflow `.github/workflows/deploy.yml` instala con `npm ci`, ejecuta las pruebas, compila y publica únicamente `dist`. En Settings → Pages, la fuente debe ser GitHub Actions para evitar que el despliegue automático de la rama publique código fuente. Sitio: https://emersonposadas.github.io/maestro-personal/.

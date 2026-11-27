@@ -19,3 +19,15 @@
 **Presentación.** Tres destinos, diseño móvil primero, un ejercicio por pantalla, detalles secundarios plegados. Sin dependencias de fuentes o imágenes remotas, ni estadísticas en portada. No se publica ningún sitio.
 
 **Dependencias.** La auditoría inicial detectó vulnerabilidades en Zod 3 y Vitest 3. Se actualizaron a Zod 4.6.7 y Vitest 5.1.2; npm informó cero vulnerabilidades después de instalar. El lockfile conserva las versiones resueltas. La compilación emite dos advertencias de anotaciones de comentarios en Zod que Rollup descarta, sin impedir generar los archivos.
+
+## 2026-11-27 · Análisis de progreso por áreas
+
+A petición del alumno, Progreso pasa de ser solo un historial a incluir análisis por instrumento y habilidad. Se conserva una sola área visible a la vez, con evidencia plegada. No se añaden decisiones al flujo de la clase ni estadísticas a la portada.
+
+El análisis se deriva de los resultados guardados, sin cambiar el esquema ni migrar datos. Agrupa por instrumento, ejercicio, versión y contenido, ordena por fecha de registro y conserva sesiones parciales. Las omisiones se separan de intentos. La recurrencia de dificultad considera los dos últimos intentos del mismo grupo y genera una propuesta revisable, sin automatizar ascensos.
+
+Los cambios entre autoevaluaciones se muestran como observaciones, nunca como medición de mejora: todavía no se registran condiciones comparables. Las áreas sin evidencia muestran ausencia de datos y las habilidades técnicas pendientes se hacen explícitas. Se requieren futuras mediciones y revisión humana para valorar la evolución técnica.
+
+## 2026-11-27 · Publicación en GitHub Pages
+
+La página pública servía el index.html fuente con una referencia a /src/main.tsx (404). Se añade un workflow que prueba, compila y publica dist, con acciones fijadas a commits de la documentación oficial de Vite. La base de producción y preview es /maestro-personal/; el servidor de desarrollo mantiene /. El usuario ha autorizado corregir y publicar. Se incluyen los cambios de análisis por áreas ya verificados.
