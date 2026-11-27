@@ -5,6 +5,7 @@ on:
   workflow_dispatch:
 permissions:
   contents: read
+  actions: read
   pages: write
   id-token: write
 concurrency:
@@ -25,11 +26,24 @@ jobs:
       - run: npm ci
       - run: npm test
       - run: npm run build
-      - name: Usar GitHub Actions como fuente de Pages
+      # Repositories configured to publish a branch also run the legacy Pages job.
+      # Publish after it so raw source cannot overwrite the compiled application.
+      - name: Esperar al despliegue automático de la rama si sigue activo
         env:
           GH_TOKEN: ${{ github.token }}
           REPOSITORY: ${{ github.repository }}
-        run: gh api --method PUT "repos/$REPOSITORY/pages" -f build_type=workflow
+        run: |
+          mode=$(gh api "repos/$REPOSITORY/pages" --jq '.build_type')
+          if [ "$mode" != "legacy" ]; then exit 0; fi
+          for attempt in $(seq 1 60); do
+            runs=$(gh api "repos/$REPOSITORY/actions/runs?head_sha=$GITHUB_SHA&per_page=100")
+            count=$(echo "$runs" | jq '[.workflow_runs[] | select(.path == "dynamic/pages/pages-build-deployment")] | length')
+            pending=$(echo "$runs" | jq '[.workflow_runs[] | select(.path == "dynamic/pages/pages-build-deployment" and .status != "completed")] | length')
+            if [ "$count" -gt 0 ] && [ "$pending" -eq 0 ]; then exit 0; fi
+            sleep 5
+          done
+          echo "El despliegue automático no terminó a tiempo; no se publica para evitar sobrescrituras."
+          exit 1
       - uses: actions/configure-pages@45bfe0192ca1faeb007ade9deae92b16b8254a0d # v6
       - uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5
         with:

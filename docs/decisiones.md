@@ -31,3 +31,5 @@ Los cambios entre autoevaluaciones se muestran como observaciones, nunca como me
 ## 2026-11-27 · Publicación en GitHub Pages
 
 La página pública servía el index.html fuente con una referencia a /src/main.tsx (404). Se añade un workflow que prueba, compila y publica dist, con acciones fijadas a commits de la documentación oficial de Vite. La base de producción y preview es /maestro-personal/; el servidor de desarrollo mantiene /. El usuario ha autorizado corregir y publicar. Se incluyen los cambios de análisis por áreas ya verificados.
+
+La configuración remota mantiene el despliegue de rama (legacy), que sobrescribió la primera publicación compilada. El token de Actions no permitió cambiar esa configuración. El workflow espera a que termine el despliegue legacy del mismo commit antes de publicar dist. Si Pages se cambia a fuente GitHub Actions, la espera se omite. No se necesitan credenciales personales en el repositorio.
