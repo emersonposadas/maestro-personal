@@ -25,6 +25,11 @@ jobs:
       - run: npm ci
       - run: npm test
       - run: npm run build
+      - name: Usar GitHub Actions como fuente de Pages
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPOSITORY: ${{ github.repository }}
+        run: gh api --method PUT "repos/$REPOSITORY/pages" -f build_type=workflow
       - uses: actions/configure-pages@45bfe0192ca1faeb007ade9deae92b16b8254a0d # v6
       - uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5
         with:
